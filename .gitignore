@@ -6,6 +6,7 @@ tmp/
 
 buffer_string.h
 cats
+cats_debug
 templates.h
 a.out
 examples/buffer.h

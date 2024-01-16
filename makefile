@@ -7,12 +7,12 @@ buffer_string.h: buffer.h
 	xxd -i $< > $@
 
 # Debug build
-cats_debug: CFLAGS += -fsanitize=address -g -Wpedantic -std=c11
+cats_debug: CFLAGS += -fsanitize=address -g -Wpedantic -std=c11 -lbsd
 cats_debug: cats.c buffer_string.h
 	clang $(CFLAGS) $< -o $@
 
 # Optimized build
-cats: CFLAGS += -O3 -Wpedantic -std=c11
+cats: CFLAGS += -O3 -Wpedantic -std=c11 -lbsd
 cats: cats.c buffer_string.h
 	clang $(CFLAGS) $< -o $@
 

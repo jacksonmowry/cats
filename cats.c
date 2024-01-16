@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <bsd/string.h>
 
 const char *generic_print_macro =
     "#define print_generic(value) _Generic((value), \\\n"

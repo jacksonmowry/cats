@@ -4,7 +4,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <bsd/string.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
