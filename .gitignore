@@ -7,3 +7,5 @@ tmp/
 buffer_string.h
 cats
 templates.h
+a.out
+examples/buffer.h

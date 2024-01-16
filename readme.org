@@ -47,7 +47,7 @@ make cats
 ./cats *.html
 #+end_src
 
-A header file ~templates.h~ will be generated for you, this is the only file you explicitly need to include in your project.
+cats is built as a standalone binary that should be run from your templates directory. A header file ~templates.h~ will be generated for you, this is the only file you explicitly need to include in your project. The ~buffer.h~ header it generates is already included in ~templates.h~.
 
 #+begin_src C
 #include <stdio.h>
