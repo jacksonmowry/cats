@@ -1,0 +1,74 @@
+#+title: cats
+#+subtitle: C Auto Template System
+
+* Introduction
+This is a templating system that I developed as part of a 2 article series (part [[https://jacksonmowry.github.io/text_templating.html][1]] and [[https://jacksonmowry.github.io/template_macros.html][2]]) where we explored how to turn templates in to C code.
+
+The program generates macros, along with common utils, that can then be included in your code and run. The macros use an internal buffer which is managed to allow templates of any size.
+
+#+begin_src html
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div>Hi Mom! My name is ${first_name} ${last_name}</div>
+        @for(int i = 0; i < 10; i++) {
+            @if (i == 5) {
+                @i = 9;
+            @}
+            <div>${i}</div>
+        @}
+
+        <pre>
+            @include{"index.md"}
+        </pre>
+
+        ${sqrt(32):%f}
+    </body>
+</html>
+#+end_src
+
+* Writing Templates
+Look under ~/examples~ for more complete files.
+
+** Variables
+Variables are denoted by ~${}~ blocks, with an optional format specifier that will be passed to ~printf~. If the format specifier is omitted variables have their types inferred. Variables within the scope of the template, and the external scope can be used in the same way. Any C function can also be placed directly within a variable block.
+** Includes
+Other templates can be included by using ~@include{""}~ and specifying the file. Depth of includes is not limited, and the same template can be included multiple times in the same file.
+** C Code
+Any remaining line beginning with an ~@~ will be interpreted as C code. Variables can be declared anywhere within a template. Any function can be called, and any control flow can be used.
+
+* Usage
+#+begin_src sh
+make cats
+./cats index.html
+./cats *.html
+#+end_src
+
+A header file ~templates.h~ will be generated for you, this is the only file you explicitly need to include in your project.
+
+#+begin_src C
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "templates.h"
+
+int main() {
+  char *first_name = "Joe";
+  char *last_name = "Smith";
+  int hi = 43;
+  char *author = "Billy Bob";
+  char  *title = "article 5";
+  char *rendered_template = index_html();
+  puts(rendered_template);
+  free(rendered_template);
+}
+#+end_src
+
+#+RESULTS:
+
+The macro allocates its own buffer, and manages the size automatically. The value it returns must be freed after being used.
+
+#+RESULTS:
