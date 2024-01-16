@@ -7,16 +7,20 @@ buffer_string.h: buffer.h
 	xxd -i $< > $@
 
 # Debug build
-cats_debug: CFLAGS += -fsanitize=address -g -Wpedantic
+cats_debug: CFLAGS += -fsanitize=address -g -Wpedantic -std=c11
 cats_debug: cats.c buffer_string.h
 	clang $(CFLAGS) $< -o $@
 
 # Optimized build
-cats: CFLAGS += -O3 -Wpedantic
+cats: CFLAGS += -O3 -Wpedantic -std=c11
 cats: cats.c buffer_string.h
 	clang $(CFLAGS) $< -o $@
 
-.PHONY: all debug optimized
+clang-tidy: CFLAGS += -header-filter=.*
+clang-tidy: cats.c buffer_string.h
+	clang-tidy $(CFLAGS) $< --
+
+.PHONY: all debug cats clang-tidy
 all: cats_debug
 
 debug: cats_debug

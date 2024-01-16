@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+
 #include "buffer.h"
 #include "buffer_string.h"
 #include <errno.h>
@@ -28,14 +30,14 @@ const char *generic_print_macro =
     "#define print_value_generic(buf, value) ({ \\\n"
     "    int length = snprintf(NULL, 0, print_generic(value), value); \\\n"
     "    buffer_resize(&buf, length); \\\n"
-    "    buf.len += sprintf(&buf.buffer[buf.len], print_generic(value), "
+    "    buf.len += snprintf(&buf.buffer[buf.len], buf.cap - buf.len, print_generic(value), "
     "value); \\\n"
     "    buf.buffer[buf.len] = '\\0'; \\\n"
     "})\n"
     "#define print_value(buf, fmt, value) ({ \\\n"
     "    int length = snprintf(NULL, 0, fmt, value); \\\n"
     "    buffer_resize(&buf, length); \\\n"
-    "    buf.len += sprintf(&buf.buffer[buf.len], fmt, value); \\\n"
+    "    buf.len += snprintf(&buf.buffer[buf.len], buf.cap - buf.len, fmt, value); \\\n"
     "    buf.buffer[buf.len] = '\\0'; \\\n"
     "})\n";
 
